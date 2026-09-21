@@ -1,0 +1,14 @@
+{
+  "name": "Mpfy — Your Clean Music Experience",
+  "short_name": "Mpfy",
+  "description": "Clean, fast, distraction-free music discovery and playback.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,547 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Mpfy design system
+   - surfaces: dark (default) / light / amoled
+   - ui modes: apple / ytm / spotify (visual themes)
+   ============================================================ */
+
+:root {
+  --font-ui: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", var(--font-ui);
+
+  --acc-h: 16;
+  --acc-s: 100%;
+  --acc-l: 62%;
+  --accent: hsl(var(--acc-h) var(--acc-s) var(--acc-l));
+  --accent-soft: hsl(var(--acc-h) var(--acc-s) var(--acc-l) / 0.14);
+  --accent-contrast: #1a0c06;
+
+  /* dark (default) */
+  --bg: #0b0d10;
+  --bg-gradient: radial-gradient(1200px 500px at 80% -10%, hsl(var(--acc-h) 60% 30% / 0.16), transparent 60%),
+    radial-gradient(900px 420px at -10% 0%, hsl(220 30% 25% / 0.25), transparent 55%);
+  --s1: #12151a; /* cards */
+  --s2: #191d24; /* raised */
+  --s3: #222833; /* hover */
+  --line: rgb(255 255 255 / 0.07);
+  --line-strong: rgb(255 255 255 / 0.14);
+  --text: #f2f3f5;
+  --text-dim: #9aa3b2;
+  --text-faint: #67707e;
+  --glass: rgb(14 17 21 / 0.72);
+  --scrim: rgb(0 0 0 / 0.6);
+  --shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+  --shadow-sm: 0 4px 14px rgb(0 0 0 / 0.25);
+
+  /* mode geometry defaults (apple) */
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --row-pad-y: 8px;
+  --grid-min: 160px;
+  --sidebar-w: 232px;
+  --player-h: 84px;
+}
+
+:root[data-surface="light"] {
+  --bg: #f4f2ee;
+  --bg-gradient: radial-gradient(1200px 500px at 80% -10%, hsl(var(--acc-h) 70% 60% / 0.1), transparent 60%),
+    radial-gradient(900px 420px at -10% 0%, hsl(40 40% 70% / 0.18), transparent 55%);
+  --s1: #fbfaf7;
+  --s2: #ffffffcc;
+  --s3: #eceae4;
+  --line: rgb(20 18 14 / 0.08);
+  --line-strong: rgb(20 18 14 / 0.16);
+  --text: #191a1c;
+  --text-dim: #5c6066;
+  --text-faint: #8a8f98;
+  --glass: rgb(250 249 246 / 0.8);
+  --scrim: rgb(20 15 10 / 0.45);
+  --shadow: 0 12px 30px rgb(30 25 20 / 0.14);
+  --shadow-sm: 0 3px 10px rgb(30 25 20 / 0.1);
+  --accent-contrast: #ffffff;
+}
+
+:root[data-surface="amoled"] {
+  --bg: #000000;
+  --bg-gradient: none;
+  --s1: #0a0a0c;
+  --s2: #131316;
+  --s3: #1d1d22;
+  --line: rgb(255 255 255 / 0.09);
+  --line-strong: rgb(255 255 255 / 0.18);
+  --glass: rgb(4 4 5 / 0.82);
+  --scrim: rgb(0 0 0 / 0.75);
+}
+
+/* ---------------- UI modes ---------------- */
+:root[data-ui="apple"] {
+  --acc-h: 350;
+  --acc-s: 84%;
+  --acc-l: 63%;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --grid-min: 168px;
+}
+
+:root[data-ui="ytm"] {
+  --acc-h: 8;
+  --acc-s: 92%;
+  --acc-l: 60%;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --row-pad-y: 6px;
+  --grid-min: 176px;
+}
+:root[data-ui="ytm"] .card-hover {
+  transform-origin: center;
+}
+
+:root[data-ui="spotify"] {
+  --acc-h: 145;
+  --acc-s: 62%;
+  --acc-l: 54%;
+  --radius-lg: 10px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --row-pad-y: 5px;
+  --grid-min: 150px;
+  --sidebar-w: 260px;
+}
+
+/* ---------------- base ---------------- */
+html {
+  color-scheme: dark;
+}
+:root[data-surface="light"] {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.app-bg {
+  background: var(--bg-gradient), var(--bg);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--s3) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--s3);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------- components ---------------- */
+.card {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.card-hover {
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 200ms, border-color 200ms;
+}
+.card-hover:hover {
+  background: var(--s2);
+  transform: translateY(-2px);
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 20px;
+  transition: transform 150ms, background-color 150ms, opacity 150ms, filter 150ms;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-ghost {
+  background: var(--s2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover {
+  background: var(--s3);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  color: var(--text-dim);
+  transition: background-color 150ms, color 150ms, transform 150ms;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.icon-btn:hover {
+  background: var(--s3);
+  color: var(--text);
+}
+.icon-btn:active {
+  transform: scale(0.92);
+}
+.icon-btn[data-active="true"] {
+  color: var(--accent);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--s2);
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+  white-space: nowrap;
+}
+.chip:hover {
+  background: var(--s3);
+  color: var(--text);
+}
+.chip[data-active="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: hsl(var(--acc-h) var(--acc-s) var(--acc-l) / 0.3);
+}
+
+.input {
+  width: 100%;
+  background: var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 150ms, background-color 150ms;
+}
+.input::placeholder {
+  color: var(--text-faint);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--s1);
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: background-color 150ms, color 150ms;
+  cursor: pointer;
+}
+.sidebar-item:hover {
+  background: var(--s2);
+  color: var(--text);
+}
+.sidebar-item[data-active="true"] {
+  color: var(--text);
+  background: var(--s2);
+}
+:root[data-ui="spotify"] .sidebar-item[data-active="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.row-hover {
+  transition: background-color 130ms;
+  border-radius: var(--radius-md);
+}
+.row-hover:hover {
+  background: var(--s2);
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--s2);
+  border-radius: var(--radius-md);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.05), transparent);
+  animation: shimmer 1.4s infinite;
+}
+:root[data-surface="light"] .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgb(0 0 0 / 0.04), transparent);
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 240ms ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sheet-up {
+  animation: sheetUp 300ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes sheetUp {
+  from {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scale-in {
+  animation: scaleIn 200ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes scaleIn {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* equalizer for the currently playing row */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+.eq span {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  animation: eqBounce 1s ease-in-out infinite;
+}
+.eq span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.eq span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes eqBounce {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 14px;
+  }
+}
+
+/* rotating artwork while playing */
+.spin-slow {
+  animation: spinSlow 24s linear infinite;
+}
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------- range inputs ---------------- */
+input[type="range"].mpfy-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].mpfy-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    var(--accent) var(--fill, 0%),
+    var(--s3) var(--fill, 0%),
+    var(--s3) 100%
+  );
+}
+input[type="range"].mpfy-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0;
+  transition: opacity 150ms, transform 150ms;
+}
+input[type="range"].mpfy-range:hover::-webkit-slider-thumb,
+input[type="range"].mpfy-range:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
+}
+input[type="range"].mpfy-range::-moz-range-track {
+  height: 4px;
+  border-radius: 4px;
+  background: var(--s3);
+}
+input[type="range"].mpfy-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 4px;
+  background: var(--accent);
+}
+input[type="range"].mpfy-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+/* ---------------- scroll rows ---------------- */
+.scroll-x {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+.scroll-x > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* hide yt embed host */
+#mpfy-yt-host {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0.001;
+  pointer-events: none;
+  z-index: 1;
+}
+:root[data-peek="true"] #mpfy-yt-host {
+  width: 340px;
+  height: 192px;
+  opacity: 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  z-index: 60;
+  bottom: calc(var(--player-h) + 16px);
+}
+
+/* ---------------- reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+:root[data-motion="off"] *,
+:root[data-motion="off"] *::before,
+:root[data-motion="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
